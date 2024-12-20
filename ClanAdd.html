@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILENT | 10X10</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=80&id=FlFms6KC2Z16&format=png">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid #333;
+            border-radius: 4px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.9rem;
+        }
+        
+        input[type="text"], 
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid #444;
+            color: #fff;
+            font-family: 'Source Code Pro', monospace;
+            border-radius: 3px;
+        }
+        
+        input:focus, 
+        textarea:focus {
+            outline: none;
+            border-color: #666;
+        }
+        
+        .submit-btn {
+            background: #333;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-family: 'Source Code Pro', monospace;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+        
+        .submit-btn:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1 class="logo">SILENT</h1>
+        <p class="slogan">team.silent.submit()</p>
+    </div>
+
+    <div class="form-container">
+        <form id="clanApplication">
+            <div class="form-group">
+                <label>1. Никнейм на сервере</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>2. Стаж игры в Minecraft</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>3. Наказания на JasCube</label>
+                <input type="text" placeholder="Если нет - поставьте прочерк" required>
+            </div>
+
+            <div class="form-group">
+                <label>4. Время для игры с тимейтами</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>5. Готовность делиться ресурсами/монетами/токенами</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>6. Предпочтения (pve/pvp/cpvp)</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>7. Возраст (от 14 лет)</label>
+                <input type="number" min="14" required>
+            </div>
+
+            <div class="form-group">
+                <label>8. Опыт в других командах</label>
+                <input type="text" placeholder="Если нет - поставьте прочерк" required>
+            </div>
+
+            <div class="form-group">
+                <label>9. Согласие на проверку через AnyDesk</label>
+                <input type="text" placeholder="Только согласие" required>
+            </div>
+
+            <div class="form-group">
+                <label>10. Донат на сервере</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>11. Стаж игры на JasCube</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>12. Почему хотите в наш клан</label>
+                <textarea rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>13. Ваше имя</label>
+                <input type="text" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Отправить заявку</button>
+        </form>
+    </div>
+
+    <script>
+document.getElementById('clanApplication').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formInputs = this.querySelectorAll('input, textarea');
+    let fields = [];
+    
+    formInputs.forEach(input => {
+        const label = input.previousElementSibling.textContent.replace(/^\d+\.\s/, '').trim();
+        const value = input.value.trim();
+        
+        fields.push({
+            name: label,
+            value: value || '-',
+            inline: false
+        });
+    });
+
+    const webhookData = {
+        username: "SILENT  -  BOT",
+        avatar_url: "https://img.icons8.com/?size=80&id=FlFms6KC2Z16&format=png",
+        embeds: [{
+            title: "📝 Новая заявка в клан SILENT",
+            color: 0x2F3136,
+            fields: fields,
+            footer: {
+                text: "SILENT Clan  -  System",
+                icon_url: "https://img.icons8.com/?size=80&id=FlFms6KC2Z16&format=png"
+            },
+            timestamp: new Date().toISOString()
+        }]
+    };
+
+    fetch('https://discordapp.com/api/webhooks/1319672537826721892/wxqb1RUfCS6SkoTW1jKLjyv0RMB0AFv_Zdg0lAA6QWbVCLhPi1ibPZiFfobEzE1g2JnL', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(webhookData)
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Заявка успешно отправлена! Ожидайте ответа в личных сообщениях.');
+            this.reset();
+        } else {
+            throw new Error('Network response was not ok');
+        }
+    })
+    .catch(error => {
+        alert('Произошла ошибка при отправке. Пожалуйста, попробуйте позже.');
+        console.error('Error:', error);
+    });
+});
+
+    </script>
+</body>
+</html>
